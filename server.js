@@ -40,7 +40,7 @@ app.use(express.json());
 // Configure CORS to allow multiple origins
 const allowedOrigins = [
     'http://localhost:5173', // Local development
-    'https://silver-jalebi-aa15e4.netlify.app' // Deployed Netlify frontend
+    // 'https://silver-jalebi-aa15e4.netlify.app' // Deployed Netlify frontend
 ];
 
 app.use(
