@@ -17,7 +17,7 @@ const allowedOrigins = [
     'https://celadon-pika-488d85.netlify.app' // Deployed Netlify frontend
 ];
 
-// CORS setup
+// CORS setup with only required changes
 app.use(
     cors({
         origin: function (origin, callback) {
@@ -28,7 +28,7 @@ app.use(
                 callback(new Error('Not allowed by CORS'));
             }
         },
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight requests
         allowedHeaders: ['Content-Type', 'Authorization'], // Allow Authorization header
         credentials: true // Enable cookies/credentials if necessary
     })
