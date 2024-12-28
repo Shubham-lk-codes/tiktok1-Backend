@@ -11,7 +11,7 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// Allow all origins (for testing) or specify your allowed origins
+// Allowed origins (include your frontend URL on Netlify)
 const allowedOrigins = [
     'http://localhost:5173', // Local development
     'https://celadon-pika-488d85.netlify.app' // Deployed Netlify frontend
@@ -20,14 +20,16 @@ const allowedOrigins = [
 app.use(
     cors({
         origin: function (origin, callback) {
+            // Allow requests with no origin (like Postman or mobile apps)
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
             }
         },
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight requests
-        credentials: true // Support cookies/headers
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight
+        allowedHeaders: ['Content-Type', 'Authorization'], // Allow Authorization header
+        credentials: true // Enable cookies/credentials if necessary
     })
 );
 
