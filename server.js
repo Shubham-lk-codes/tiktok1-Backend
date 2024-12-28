@@ -13,7 +13,8 @@ app.use(express.json());
 
 const allowedOrigins = [
     'http://localhost:5173',
-    'https://guileless-snickerdoodle-6ef550.netlify.app'
+    'https://guileless-snickerdoodle-6ef550.netlify.app',
+    'https://tiktok1-frontend.vercel.app'
 ];
 
 app.use(
