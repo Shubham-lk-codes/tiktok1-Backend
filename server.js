@@ -11,31 +11,29 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// Allowed origins (include your frontend URL on Netlify)
+import cors from 'cors';
+
 const allowedOrigins = [
-    'http://localhost:5173', // Local development
-    'https://guileless-snickerdoodle-6ef550.netlify.app/' // Deployed Netlify frontend
+    'http://localhost:5173',
+    'https://guileless-snickerdoodle-6ef550.netlify.app'
 ];
 
-// CORS setup with only required changes
 app.use(
     cors({
         origin: function (origin, callback) {
-            // Allow requests with no origin (like mobile apps or Postman)
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
                 callback(new Error('Not allowed by CORS'));
             }
         },
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Include OPTIONS for preflight requests
-        allowedHeaders: ['Content-Type', 'Authorization'], // Allow Authorization header
-        credentials: true // Enable cookies/credentials if necessary
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true
     })
 );
 
-// Handle preflight requests explicitly (ensure OPTIONS requests are handled)
-app.options('*', cors());
+app.options('*', cors()); // Handles preflight
 
 // Routes
 app.use('/api/users', userRoutes);
