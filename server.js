@@ -17,10 +17,11 @@ const allowedOrigins = [
     'https://celadon-pika-488d85.netlify.app' // Deployed Netlify frontend
 ];
 
+// CORS setup
 app.use(
     cors({
         origin: function (origin, callback) {
-            // Allow requests with no origin (like Postman or mobile apps)
+            // Allow requests with no origin (like mobile apps or Postman)
             if (!origin || allowedOrigins.includes(origin)) {
                 callback(null, true);
             } else {
@@ -33,9 +34,10 @@ app.use(
     })
 );
 
-// Handle preflight requests explicitly (optional)
+// Handle preflight requests explicitly (ensure OPTIONS requests are handled)
 app.options('*', cors());
 
+// Routes
 app.use('/api/users', userRoutes);
 app.use('/api/videos', videoRoutes);
 
