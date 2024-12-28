@@ -11,8 +11,6 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-import cors from 'cors';
-
 const allowedOrigins = [
     'http://localhost:5173',
     'https://guileless-snickerdoodle-6ef550.netlify.app'
