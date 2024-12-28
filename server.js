@@ -14,7 +14,7 @@ app.use(express.json());
 // Allowed origins (include your frontend URL on Netlify)
 const allowedOrigins = [
     'http://localhost:5173', // Local development
-    'https://celadon-pika-488d85.netlify.app' // Deployed Netlify frontend
+    'https://guileless-snickerdoodle-6ef550.netlify.app/' // Deployed Netlify frontend
 ];
 
 // CORS setup with only required changes
