@@ -5,6 +5,7 @@ import {
   searchVideos,
   commentOnVideo,
   rateVideo,
+  deleteVideo
 } from '../controllers/videoController.js';
 import { protect } from '../middlewares/authMiddleware.js';
 import {upload} from '../middlewares/multerConfig.js';
@@ -18,6 +19,7 @@ router.get('/', getVideos); // For all users
 router.get('/search', searchVideos); // Search videos
 router.post('/:videoId/comment', protect, commentOnVideo); // Comment on video
 router.post('/:videoId/rate', protect, rateVideo); // Rate a video
+router.delete('/:videoId', protect, deleteVideo);
 
 
 export default router;

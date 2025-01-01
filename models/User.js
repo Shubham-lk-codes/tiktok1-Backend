@@ -7,10 +7,13 @@ const userSchema = mongoose.Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['creator', 'consumer'], required: true },
-    profileImage: { type: String, default: '' }, // Field to store profile image URL
+    profileImage: { type: String, default: '' }, // Profile image URL
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Array of follower IDs
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // Array of following IDs
   },
   { timestamps: true }
 );
+
 
 // Password hashing
 userSchema.pre('save', async function (next) {

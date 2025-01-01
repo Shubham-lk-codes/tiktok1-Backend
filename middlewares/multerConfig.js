@@ -54,4 +54,32 @@ export const uploadUserProfile = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
 });
 
-export default { upload, uploadUserProfile };
+const postStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'posts',
+    resource_type: 'image',
+    format: async () => 'jpeg',
+    public_id: (req, file) => {
+      console.log("File received in CloudinaryStorage:", file);
+      return `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
+    },
+  },
+});
+
+// Multer for post images
+export const uploadPostImage = multer({
+  storage: postStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  fileFilter: (req, file, cb) => {
+    console.log("File received by multer:", file); // Log file details
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (!allowedTypes.includes(file.mimetype)) {
+      console.log("Rejected file type:", file.mimetype);
+      return cb(new Error("Invalid file type. Only images are allowed."));
+    }
+    cb(null, true);
+  },
+});
+
+export default { upload, uploadUserProfile,uploadPostImage };

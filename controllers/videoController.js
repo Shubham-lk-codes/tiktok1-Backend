@@ -77,3 +77,32 @@ export const rateVideo = async (req, res) => {
 
   res.status(201).json({ message: 'Rating added/updated', ratings: video.ratings });
 };
+
+// Delete a video (Creator or Admin only)
+export const deleteVideo = async (req, res) => {
+  const { videoId } = req.params;
+
+  try {
+    // Find the video by ID
+    const video = await Video.findById(videoId);
+    if (!video) {
+      return res.status(404).json({ message: 'Video not found' });
+    }
+
+    // Check if the user is the creator or an admin
+    if (video.creator.toString() !== req.user.id && req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'You are not authorized to delete this video' });
+    }
+
+    // Optionally, delete the video from Cloudinary
+    const cloudinaryPublicId = video.url.split('/').pop().split('.')[0]; // Extract public ID from the URL
+    await cloudinary.uploader.destroy(cloudinaryPublicId, { resource_type: 'video' });
+
+    // Remove the video from the database
+    await video.remove();
+
+    res.status(200).json({ message: 'Video deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete video' });
+  }
+};
